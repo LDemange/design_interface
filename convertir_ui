@@ -1,0 +1,10 @@
+
+
+1)installations préalables:
+	sudo apt-get install python3-pyqt5
+	sudo apt-get install qtcreator pyqt5-dev-tools
+	sudo apt-get install qttools5-dev-tools
+
+2)Pour convertir fichier ui créer par Qt Designer en .py, taper :
+	pyuic5 MainWindow.ui > MainWindow.py
+
