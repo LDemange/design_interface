@@ -9,23 +9,30 @@ from MenuFonction_ui import *
 
 import MainWindow
 
-
 class CMenuFonction(QtWidgets.QMainWindow):
+    
+
     def __init__(self, parent=None):
-        super(CMenuFonction, self).__init__(parent=parent) #  nouvelle notation depuis python 3 : super().__init__(parent=parent)
-        ui = Ui_CMenuFonction() # On peut remplacer ces deux dernieres lignes par :
-        ui.setupUi(self)        # self.setupUi(self)
-        #self.connect(self.CancelButton,QtCore.SIGNAL("clicked()"),self.calcul)
+        #super(CMenuFonction, self).__init__(parent=parent) #  nouvelle notation depuis python 3 : super().__init__(parent=parent)
+        super().__init__(parent=parent)
+        self._ui = Ui_CMenuFonction() # On peut remplacer ces deux dernieres lignes par :
+        self._ui.setupUi(self)        # self.setupUi(self)
+        #self.connect(self.CancelButton,QtCore.SIGNAL("clicked()"),self.calcul) #exemple pour connecter
 
         #ui.CancelButton.pressed.connect(self.close)
-        ui.CancelButton.pressed.connect(lambda : calcul(self))
+        self._ui.CancelButton.pressed.connect(lambda : self.cancel())
+        self._ui.ValidateButton.pressed.connect(lambda : self.calcul())
 
-        print('MF _MWinstance=',MainWindow.CMainWindow._MWinstance) #test variable statique
-        #print('MF _MWinstance=',parent._mdiArea) Solution          #Solution
-        
+    def cancel(self):
+        self.close()
 
-def calcul(self):
-    self.close()
+    def calcul(self):
+        pass
+        #self.close()
+        #self._name = self._ui.EditName
+        #print(self._name)
+
+
     
 
     
