@@ -8,6 +8,19 @@ from matplotlib.pyplot import close
 from MenuFonction_ui import *
 from MainWindow import *
 
+        
+def convert_format(fct):
+    fct = fct.replace('x','self._x')
+    fct = fct.replace('sin','np.sin')
+    fct = fct.replace('cos','np.cos')
+    fct = fct.replace('tan','np.tan')
+    fct = fct.replace('arctan','np.arctan')
+    fct = fct.replace('arcsin','np.arcsin')
+    fct = fct.replace('arccos','np.arccos')
+    fct = fct.replace('sqrt','np.sqrt')
+    fct = fct.replace('floor','np.floor')
+    return fct
+
 class CMenuFonction(QtWidgets.QMainWindow):
     
 
@@ -31,17 +44,11 @@ class CMenuFonction(QtWidgets.QMainWindow):
         self._xmin = float(self._ui.Editxmin.text())
         self._xmax = float(self._ui.Editxmax.text())
         self._NbPoint = int(self._ui.EditNbPoint.text())
-        x=np.linspace(self._xmin,self._xmax,self._NbPoint)
-        self._fonction = self.convert_format(self._fonction)
-        print(self._name)
-        print(eval(self._fonction))
-        print(self._xmin)
-        print(self._xmax)
-        #print(x)
-        
-    def convert_format(fct):
-        fct.replace('sin','np.sin',inplace=True)
-        return fct
+        self._fonction = convert_format(self._fonction)
+        self._x=np.linspace(self._xmin,self._xmax,self._NbPoint)
+        self._y=eval(self._fonction)
+        return self._x, self._y
+
 
 
     

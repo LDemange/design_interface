@@ -19,8 +19,8 @@ class CMainWindow(QtWidgets.QMainWindow):
         super(CMainWindow, self).__init__(parent=parent) #  nouvelle notation depuis python 3 : super().__init__(parent=parent)
         ui = Ui_CMainWindow() # On peut remplacer ces deux dernieres lignes par :
         ui.setupUi(self)        # self.setupUi(self)
-        ui.actionCreer.triggered.connect(lambda : CreerMenuFonction(self))
-        ui.actionGraph_en_temporel.triggered.connect(lambda : CreerGraphTemp(self))
+        ui.actionCreer.triggered.connect(lambda : self.CreerMenuFonction())
+        #ui.actionGraph_en_temporel.triggered.connect(lambda : self.CreerGraphTemp())
         self._mdiArea = QtWidgets.QMdiArea(self)
         self._mdiArea.show()
         self._mdiArea.setEnabled(True)
@@ -28,14 +28,14 @@ class CMainWindow(QtWidgets.QMainWindow):
         self._mdiArea.setMinimumSize(QtCore.QSize(1750, 950))
         self._mdiArea.setObjectName("_mdiArea")
         CMainWindow._MWinstance = self
-        #print('MW _MWinstance=',self._MWinstance) #test variable statique
 
-def CreerMenuFonction(self):
-    import MenuFonction
-    w = MenuFonction.CMenuFonction(self)
-    w.show()
+    def CreerMenuFonction(self):
+        import MenuFonction
+        self._MF = MenuFonction.CMenuFonction(self)
+        self._MF.show()
+        self._MF._ui.ValidateButton.pressed.connect(lambda : self.CreerGraphTemp())
 
-def CreerGraphTemp(self):
+    def CreerGraphTemp(self):
     
         from math import cos, sin, exp, sqrt, erf, cosh, sinh
         import matplotlib
@@ -44,38 +44,32 @@ def CreerGraphTemp(self):
     
         taille_legende=9
 
-        N=1000
-        T=5
-        f0=5
-        t=np.linspace(0,T,N)
+        try:
+            self._figure
+        except:
+            print('fig does not exist')
+            self._GraphWindow =  QtWidgets.QMdiSubWindow(self) # Creation GraphWindow
+            self._mdiArea.addSubWindow(self._GraphWindow) #Placement dans la GraphWindow dans la MdiArea  
+            self._figure = Figure() # a figure instance to plot on
+            
+            # this is the Canvas Widget that displays the `figure`
+            # it takes the `figure` instance as a parameter to __init__
+            self._canvas = FigureCanvas(self._figure)
 
-        u=np.zeros(N)
-        for i in range (0,N):
-            u[i]=cos(2*pi*f0*t[i])
+            # this is the Navigation widget
+            # it takes the Canvas widget and a parent
+            self._toolbar = NavigationToolbar(self._canvas, self)
         
-        self._GraphWindow =  QtWidgets.QMdiSubWindow(self) # Creation GraphWindow
-        self._mdiArea.addSubWindow(self._GraphWindow) #Placement dans la GraphWindow dans la MdiArea  
-        self._figure = Figure() # a figure instance to plot on
-        
-        # this is the Canvas Widget that displays the `figure`
-        # it takes the `figure` instance as a parameter to __init__
-        self._canvas = FigureCanvas(self._figure)
+            self._GraphWindow.layout().addWidget(self._canvas) #AJout du Canvas à la GraphWindow`
+            self._GraphWindow.layout().addWidget(self._toolbar) #AJout de toolbar à la GraphWindow`
 
-        # this is the Navigation widget
-        # it takes the Canvas widget and a parent
-        self._toolbar = NavigationToolbar(self._canvas, self)
-        
-        self._GraphWindow.layout().addWidget(self._canvas) #AJout du Canvas à la GraphWindow`
-        self._GraphWindow.layout().addWidget(self._toolbar) #AJout de toolbar à la GraphWindow`
-        
         ax = self._figure.add_subplot(111, position=[0.06, 0.06, 0.9, 0.9]) #Creation du ou des graphs et definition [X0, Y0, LX, LY]
+        line = ax.plot(self._MF._x, self._MF._y) #Creation liste de courbe line
+        ax.set_title('Title', fontsize=18)
+        ax.set_xlabel('x', fontsize=16)
+        ax.set_ylabel('y', fontsize=16)
         
-        line = ax.plot(t, u) #Creation liste de courbe line
-        ax.set_title('A single plot', fontsize=18)
-        ax.set_xlabel('t en s', fontsize=16)
-        ax.set_ylabel('|u|', fontsize=16)
-        
-        line.append(ax.plot(t, 0*u)) # ou line = ax.plot(t, 0*u), ajouter une courbe
+        #line.append(ax.plot(self._MF._x, self._MF._y)) # ou line = ax.plot(t, 0*u), ajouter une courbe
  
         self._GraphWindow.show()
         
