@@ -3,10 +3,9 @@
 
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 from matplotlib.pyplot import close, figure
-
 from MainWindow_ui import *
+import numpy as np
 
 import weakref
 
@@ -39,7 +38,6 @@ def CreerMenuFonction(self):
 def CreerGraphTemp(self):
     
         from math import cos, sin, exp, sqrt, erf, cosh, sinh
-        import numpy
         import matplotlib
         from numpy import fft, complex, pi, arange, random, zeros, log10, floor
         from matplotlib import pyplot as plt
@@ -49,9 +47,9 @@ def CreerGraphTemp(self):
         N=1000
         T=5
         f0=5
-        t=numpy.linspace(0,T,N)
+        t=np.linspace(0,T,N)
 
-        u=numpy.zeros(N)
+        u=np.zeros(N)
         for i in range (0,N):
             u[i]=cos(2*pi*f0*t[i])
         

@@ -6,8 +6,7 @@ import sys
 from matplotlib.pyplot import close
 
 from MenuFonction_ui import *
-
-import MainWindow
+from MainWindow import *
 
 class CMenuFonction(QtWidgets.QMainWindow):
     
@@ -27,10 +26,22 @@ class CMenuFonction(QtWidgets.QMainWindow):
         self.close()
 
     def calcul(self):
-        pass
-        #self.close()
-        #self._name = self._ui.EditName
-        #print(self._name)
+        self._name = self._ui.Editname.text()
+        self._fonction = self._ui.Editfx.text()
+        self._xmin = float(self._ui.Editxmin.text())
+        self._xmax = float(self._ui.Editxmax.text())
+        self._NbPoint = int(self._ui.EditNbPoint.text())
+        x=np.linspace(self._xmin,self._xmax,self._NbPoint)
+        self._fonction = self.convert_format(self._fonction)
+        print(self._name)
+        print(eval(self._fonction))
+        print(self._xmin)
+        print(self._xmax)
+        #print(x)
+        
+    def convert_format(fct):
+        fct.replace('sin','np.sin',inplace=True)
+        return fct
 
 
     
