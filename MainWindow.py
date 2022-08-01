@@ -28,6 +28,7 @@ class CMainWindow(QtWidgets.QMainWindow):
         self._mdiArea.setMinimumSize(QtCore.QSize(1750, 950))
         self._mdiArea.setObjectName("_mdiArea")
         CMainWindow._MWinstance = self
+        self._liste_curve=[]
 
     def CreerMenuFonction(self):
         import MenuFonction
@@ -42,7 +43,7 @@ class CMainWindow(QtWidgets.QMainWindow):
         from numpy import fft, complex, pi, arange, random, zeros, log10, floor
         from matplotlib import pyplot as plt
     
-        taille_legende=9
+        self._liste_curve.append([self._MF._x, self._MF._y])
 
         try:
             self._figure
@@ -63,11 +64,16 @@ class CMainWindow(QtWidgets.QMainWindow):
             self._GraphWindow.layout().addWidget(self._canvas) #AJout du Canvas à la GraphWindow`
             self._GraphWindow.layout().addWidget(self._toolbar) #AJout de toolbar à la GraphWindow`
 
+        self._figure.clear()
         ax = self._figure.add_subplot(111, position=[0.06, 0.06, 0.9, 0.9]) #Creation du ou des graphs et definition [X0, Y0, LX, LY]
-        line = ax.plot(self._MF._x, self._MF._y) #Creation liste de courbe line
         ax.set_title('Title', fontsize=18)
         ax.set_xlabel('x', fontsize=16)
         ax.set_ylabel('y', fontsize=16)
+        for curve in self._liste_curve:
+            print(curve[0])
+            #plt.plot(curve[0], curve[1])
+            line = ax.plot(curve[0], curve[1]) #Creation liste de courbe line
+
         
         #line.append(ax.plot(self._MF._x, self._MF._y)) # ou line = ax.plot(t, 0*u), ajouter une courbe
  
