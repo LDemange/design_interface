@@ -71,7 +71,7 @@ class CMainWindow(QtWidgets.QMainWindow):
         ax.set_ylabel('y', fontsize=16)
         for curve in self._liste_curve:
             print(curve[0])
-            #plt.plot(curve[0], curve[1])
+            #plt.plot(curve[0], curve[1]) #ne fonctionne pas
             line = ax.plot(curve[0], curve[1]) #Creation liste de courbe line
 
         
