@@ -7,7 +7,7 @@ from matplotlib.pyplot import close
 
 from MenuFonction_ui import *
 from MainWindow import *
-
+import numpy as np
         
 def convert_format(fct):
     fct = fct.replace('x','self._x')

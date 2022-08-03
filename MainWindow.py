@@ -2,16 +2,11 @@
 #*coding: utf8 *
 
 import sys
-from PyQt5 import QtCore, QtGui, QtWidgets
-from matplotlib.pyplot import close, figure
+from PyQt5 import QtCore, QtWidgets
 from MainWindow_ui import *
-import numpy as np
-
-import weakref
 
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
-from matplotlib.figure import Figure
 
 class CMainWindow(QtWidgets.QMainWindow):
     
@@ -20,6 +15,7 @@ class CMainWindow(QtWidgets.QMainWindow):
         ui = Ui_CMainWindow() # On peut remplacer ces deux dernieres lignes par :
         ui.setupUi(self)        # self.setupUi(self)
         ui.actionCreer.triggered.connect(lambda : self.CreerMenuFonction())
+        ui.actionDonnees.triggered.connect(lambda : self.CreerDataWindow())
         #ui.actionGraph_en_temporel.triggered.connect(lambda : self.CreerGraphTemp())
         self._mdiArea = QtWidgets.QMdiArea(self)
         self._mdiArea.show()
@@ -27,7 +23,6 @@ class CMainWindow(QtWidgets.QMainWindow):
         self._mdiArea.setGeometry(QtCore.QRect(80, 50, 1750, 951)) 
         self._mdiArea.setMinimumSize(QtCore.QSize(1750, 950))
         self._mdiArea.setObjectName("_mdiArea")
-        CMainWindow._MWinstance = self
         self._liste_curve=[]
 
     def CreerMenuFonction(self):
@@ -35,14 +30,16 @@ class CMainWindow(QtWidgets.QMainWindow):
         self._MF = MenuFonction.CMenuFonction(self)
         self._MF.show()
         self._MF._ui.ValidateButton.pressed.connect(lambda : self.CreerGraphTemp())
+        
+    def CreerDataWindow(self):
+        import EditDataWindow
+        self._DW = EditDataWindow.CEditDataWindow(self)
+        self._DW.show()
+        self._DW._ui.ValidateButton.pressed.connect(lambda : self.CreerDataWindow())
 
     def CreerGraphTemp(self):
-    
-        from math import cos, sin, exp, sqrt, erf, cosh, sinh
-        import matplotlib
-        from numpy import fft, complex, pi, arange, random, zeros, log10, floor
+
         from matplotlib import pyplot as plt
-    
         self._liste_curve.append([self._MF._x, self._MF._y])
 
         try:
@@ -89,9 +86,6 @@ class CMainWindow(QtWidgets.QMainWindow):
         #line.append(ax.plot(self._MF._x, self._MF._y)) # ou line = ax.plot(t, 0*u), ajouter une courbe
  
         self._GraphWindow.show()
-        
-   
-   
       
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
