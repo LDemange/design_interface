@@ -21,6 +21,8 @@ class CEditDataWindow(QtWidgets.QMainWindow):
         
     def update_DW(self, MW):
         self._ui.CurveChoice.addItem('Toto')
+        
+           
         #mm = MW._figure.gca()
         #line = mm.lines[0]
         ##mm.lines[0].remove()
