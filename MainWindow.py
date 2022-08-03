@@ -76,6 +76,11 @@ class CMainWindow(QtWidgets.QMainWindow):
         #print(line.get_label())
         
         self._figure.canvas.draw()
+        
+        try:
+            self._DW.update_DW(self)
+        except:
+            pass
 
         #for curve in self._liste_curve:
         #    print(curve[0])

@@ -32,11 +32,8 @@ class CMenuFonction(QtWidgets.QMainWindow):
         #self.connect(self.CancelButton,QtCore.SIGNAL("clicked()"),self.calcul) #exemple pour connecter
 
         #ui.CancelButton.pressed.connect(self.close)
-        self._ui.CancelButton.pressed.connect(lambda : self.cancel())
+        self._ui.CancelButton.pressed.connect(lambda : self.close())
         self._ui.ValidateButton.pressed.connect(lambda : self.calcul())
-
-    def cancel(self):
-        self.close()
 
     def calcul(self):
         self._name = self._ui.Editname.text()
