@@ -10,7 +10,10 @@ from MainWindow import *
 import numpy as np
         
 def convert_format(fct):
-    fct = fct.replace('x','self._x')
+    #fct = fct.replace('x','self._x')
+    fct = fct.replace('log','np.log10')
+    fct = fct.replace('ln','np.log')
+    fct = fct.replace('exp','np.exp')
     fct = fct.replace('sin','np.sin')
     fct = fct.replace('cos','np.cos')
     fct = fct.replace('tan','np.tan')
@@ -23,17 +26,16 @@ def convert_format(fct):
 
 class CMenuFonction(QtWidgets.QMainWindow):
     
-
-    def __init__(self, parent=None):
+    def __init__(self, MW=None, parent=None):
         #super(CMenuFonction, self).__init__(parent=parent) #  nouvelle notation depuis python 3 : super().__init__(parent=parent)
         super().__init__(parent=parent)
         self._ui = Ui_CMenuFonction() # On peut remplacer ces deux dernieres lignes par :
         self._ui.setupUi(self)        # self.setupUi(self)
-        #self.connect(self.CancelButton,QtCore.SIGNAL("clicked()"),self.calcul) #exemple pour connecter
+        self._MW=MW
 
         #ui.CancelButton.pressed.connect(self.close)
         self._ui.CancelButton.pressed.connect(lambda : self.close())
-        self._ui.ValidateButton.pressed.connect(lambda : self.calcul())
+        self._ui.ValidateButton.pressed.connect(lambda : self._MW.CreerGraph())
 
     def calcul(self):
         self._name = self._ui.Editname.text()
@@ -43,8 +45,11 @@ class CMenuFonction(QtWidgets.QMainWindow):
         self._NbPoint = int(self._ui.EditNbPoint.text())
         self._fonction = convert_format(self._fonction)
         self._x=np.linspace(self._xmin,self._xmax,self._NbPoint)
+        x = self._x  #indispensable
         self._y=eval(self._fonction)
         return self._x, self._y
+    
+    
 
 
 

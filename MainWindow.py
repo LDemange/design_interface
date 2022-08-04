@@ -23,13 +23,12 @@ class CMainWindow(QtWidgets.QMainWindow):
         self._mdiArea.setGeometry(QtCore.QRect(80, 50, 1750, 951)) 
         self._mdiArea.setMinimumSize(QtCore.QSize(1750, 950))
         self._mdiArea.setObjectName("_mdiArea")
-        self._liste_curve=[]
-
+        self.CreerGraph()
+        
     def CreerMenuFonction(self):
         import MenuFonction
         self._MF = MenuFonction.CMenuFonction(self)
         self._MF.show()
-        self._MF._ui.ValidateButton.pressed.connect(lambda : self.CreerGraphTemp())
         
     def CreerDataWindow(self):
         import EditDataWindow
@@ -37,15 +36,18 @@ class CMainWindow(QtWidgets.QMainWindow):
         self._DW.show()
         self._DW._ui.ValidateButton.pressed.connect(lambda : self.CreerDataWindow())
 
-    def CreerGraphTemp(self):
+    def CreerGraph(self):
 
         from matplotlib import pyplot as plt
-        self._liste_curve.append([self._MF._x, self._MF._y])
+
+        try:
+            self._MF.calcul()
+        except:
+            pass
 
         try:
             self._figure
         except:
-            print('fig does not exist')
             self._GraphWindow =  QtWidgets.QMdiSubWindow(self) # Creation GraphWindow
             self._mdiArea.addSubWindow(self._GraphWindow) #Placement dans la GraphWindow dans la MdiArea  
             self._figure = plt.figure()  # a figure instance to plot on
@@ -61,19 +63,15 @@ class CMainWindow(QtWidgets.QMainWindow):
             self._GraphWindow.layout().addWidget(self._canvas) #AJout du Canvas à la GraphWindow`
             self._GraphWindow.layout().addWidget(self._toolbar) #AJout de toolbar à la GraphWindow`
             
-            
             self._ax = self._figure.add_subplot(111, position=[0.06, 0.06, 0.9, 0.9]) #Creation du ou des graphs et definition [X0, Y0, LX, LY]
             self._ax.set_title('Title', fontsize=18)
             self._ax.set_xlabel('x', fontsize=16)
             self._ax.set_ylabel('y', fontsize=16)
 
-        line = self._ax.plot(self._MF._x, self._MF._y)
-        
-        #mm = self._figure.gca()
-        #line = mm.lines[0]
-        ##mm.lines[0].remove()
-        #print(line.get_xydata())
-        #print(line.get_label())
+        try:
+            self._ax.plot(self._MF._x, self._MF._y,label=self._MF._name)
+        except:
+            pass
         
         self._figure.canvas.draw()
         
@@ -81,14 +79,6 @@ class CMainWindow(QtWidgets.QMainWindow):
             self._DW.update_DW(self)
         except:
             pass
-
-        #for curve in self._liste_curve:
-        #    print(curve[0])
-            #plt.plot(curve[0], curve[1]) #ne fonctionne pas
-        #    line = self._ax.plot(curve[0], curve[1]) #Creation liste de courbe line
-
-        
-        #line.append(ax.plot(self._MF._x, self._MF._y)) # ou line = ax.plot(t, 0*u), ajouter une courbe
  
         self._GraphWindow.show()
       
