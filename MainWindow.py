@@ -18,7 +18,7 @@ class CMainWindow(QtWidgets.QMainWindow):
         ui.setupUi(self)        # self.setupUi(self)
         ui.actionCreer.triggered.connect(lambda : self.CreerMenuFonction())
         ui.actionDonnees.triggered.connect(lambda : self.CreerDataWindow())
-        #ui.actionGraph_en_temporel.triggered.connect(lambda : self.CreerGraphTemp())
+        ui.pushButton.pressed.connect(lambda : self.refresh())
         self._mdiArea = QtWidgets.QMdiArea(self)
         self._mdiArea.show()
         self._mdiArea.setEnabled(True)
@@ -26,6 +26,10 @@ class CMainWindow(QtWidgets.QMainWindow):
         self._mdiArea.setMinimumSize(QtCore.QSize(1750, 950))
         self._mdiArea.setObjectName("_mdiArea")
         self.CreerGraph()
+        
+    def refresh(self):
+        self._ax.legend(loc = 1, prop={'size': 10})
+        self._figure.canvas.draw()
         
     def CreerMenuFonction(self):
         import MenuFonction
@@ -51,11 +55,13 @@ class CMainWindow(QtWidgets.QMainWindow):
             self._figure
         except:
             self._GraphWindow =  QtWidgets.QMdiSubWindow(self) # Creation GraphWindow
-            #self._GraphWindow.setWindowFlags(Qt::Window | Qt::FramelessWindowHint)
-            self._GraphWindow.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
+
+            #self._GraphWindow.resize(3000,2100)
             
+            #self._mdiArea.addSubWindow(self._GraphWindow) #Placement dans la GraphWindow dans la MdiArea  
             self._GraphWindow.setWindowState(QtCore.Qt.WindowMaximized)
-            self._mdiArea.addSubWindow(self._GraphWindow) #Placement dans la GraphWindow dans la MdiArea  
+            self._GraphWindow.setGeometry(70, 32, 1770, 970)
+            self._GraphWindow.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
             self._figure = plt.figure()  # a figure instance to plot on
             
             # this is the Canvas Widget that displays the `figure`
