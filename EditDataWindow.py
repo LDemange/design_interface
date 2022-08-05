@@ -26,6 +26,7 @@ class CEditDataWindow(QtWidgets.QMainWindow):
         self._ui.CurveChoice.currentTextChanged.connect(lambda : self.refresh_DW(self._MW))
         self._ui.DeleteButton.pressed.connect(lambda : self.remove_curve(self._MW))
         self._ui.DataButton.pressed.connect(lambda : self.create_table(self._MW))
+        self._ui.RefreshButton.pressed.connect(lambda : self.update_DW(self._MW))
         
     def refresh_DW(self, MW): #Display data
 

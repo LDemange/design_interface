@@ -5,8 +5,10 @@ import sys
 from PyQt5 import QtCore, QtWidgets
 from MainWindow_ui import *
 
+from PyQt5.QtCore import Qt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+
 
 class CMainWindow(QtWidgets.QMainWindow):
     
@@ -49,6 +51,10 @@ class CMainWindow(QtWidgets.QMainWindow):
             self._figure
         except:
             self._GraphWindow =  QtWidgets.QMdiSubWindow(self) # Creation GraphWindow
+            #self._GraphWindow.setWindowFlags(Qt::Window | Qt::FramelessWindowHint)
+            self._GraphWindow.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
+            
+            self._GraphWindow.setWindowState(QtCore.Qt.WindowMaximized)
             self._mdiArea.addSubWindow(self._GraphWindow) #Placement dans la GraphWindow dans la MdiArea  
             self._figure = plt.figure()  # a figure instance to plot on
             
@@ -67,9 +73,11 @@ class CMainWindow(QtWidgets.QMainWindow):
             self._ax.set_title('Title', fontsize=18)
             self._ax.set_xlabel('x', fontsize=16)
             self._ax.set_ylabel('y', fontsize=16)
+            
 
         try:
             self._ax.plot(self._MF._x, self._MF._y,label=self._MF._name)
+            self._ax.legend(loc = 1, prop={'size': 10})
         except:
             pass
         

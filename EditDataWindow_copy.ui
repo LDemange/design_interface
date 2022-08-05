@@ -175,14 +175,14 @@
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="ValidateButton">
+      <widget class="QPushButton" name="RefreshButton">
        <property name="font">
         <font>
          <pointsize>11</pointsize>
         </font>
        </property>
        <property name="text">
-        <string>Validate</string>
+        <string>Refresh</string>
        </property>
       </widget>
      </item>
