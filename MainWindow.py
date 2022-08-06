@@ -40,7 +40,6 @@ class CMainWindow(QtWidgets.QMainWindow):
         import EditDataWindow
         self._DW = EditDataWindow.CEditDataWindow(self)
         self._DW.show()
-        self._DW._ui.ValidateButton.pressed.connect(lambda : self.CreerDataWindow())
 
     def CreerGraph(self):
 
