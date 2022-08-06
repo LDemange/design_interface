@@ -9,9 +9,14 @@ includes = ["os", "sys", "atexit"]
 includefiles = [
 "EditDataWindow.py", "MainWindow_ui.py", "MenuFonction.py", "EditDataWindow_ui.py", "MenuFonction_ui.py"
 ]
+
+# base="Win32GUI" should be used only for Windows GUI app
+base = None
+if sys.platform == "win32":
+    base = "Win32GUI"
  
 executables = [
-Executable("MainWindow.py")
+Executable("MainWindow.py", base=base)
 ]
  
 # On appelle la fonction setup
