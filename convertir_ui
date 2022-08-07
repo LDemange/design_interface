@@ -6,5 +6,5 @@
 	sudo apt-get install qttools5-dev-tools
 
 2)Pour convertir fichier ui créer par Qt Designer en .py, taper :
-	pyuic5 MainWindow.ui > MainWindow.py
+	pyuic5 MainWindow.ui > MainWindow_ui.py
 

@@ -19,12 +19,6 @@ class CMainWindow(QtWidgets.QMainWindow):
         ui.actionCreer.triggered.connect(lambda : self.CreerMenuFonction())
         ui.actionDonnees.triggered.connect(lambda : self.CreerDataWindow())
         ui.pushButton.pressed.connect(lambda : self.refresh())
-        self._mdiArea = QtWidgets.QMdiArea(self)
-        self._mdiArea.show()
-        self._mdiArea.setEnabled(True)
-        self._mdiArea.setGeometry(QtCore.QRect(80, 50, 1750, 951)) 
-        self._mdiArea.setMinimumSize(QtCore.QSize(1750, 950))
-        self._mdiArea.setObjectName("_mdiArea")
         self.CreerGraph()
         
     def refresh(self):
@@ -101,4 +95,3 @@ if __name__ == "__main__":
     w = CMainWindow()
     w.show()
     sys.exit(app.exec_())
-    
