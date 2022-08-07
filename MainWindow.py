@@ -14,11 +14,11 @@ class CMainWindow(QtWidgets.QMainWindow):
     
     def __init__(self, parent=None):
         super(CMainWindow, self).__init__(parent=parent) #  nouvelle notation depuis python 3 : super().__init__(parent=parent)
-        ui = Ui_CMainWindow() # On peut remplacer ces deux dernieres lignes par :
-        ui.setupUi(self)        # self.setupUi(self)
-        ui.actionCreer.triggered.connect(lambda : self.CreerMenuFonction())
-        ui.actionDonnees.triggered.connect(lambda : self.CreerDataWindow())
-        ui.pushButton.pressed.connect(lambda : self.refresh())
+        self._ui = Ui_CMainWindow() # On peut remplacer ces deux dernieres lignes par :
+        self._ui.setupUi(self)        # self.setupUi(self)
+        self._ui.actionCreer.triggered.connect(lambda : self.CreerMenuFonction())
+        self._ui.actionDonnees.triggered.connect(lambda : self.CreerDataWindow())
+        self._ui.pushButton.pressed.connect(lambda : self.refresh())
         self.CreerGraph()
         
     def refresh(self):
@@ -51,9 +51,9 @@ class CMainWindow(QtWidgets.QMainWindow):
 
             #self._GraphWindow.resize(3000,2100)
             
-            #self._mdiArea.addSubWindow(self._GraphWindow) #Placement dans la GraphWindow dans la MdiArea  
+            self._ui._mdiArea.addSubWindow(self._GraphWindow) #Placement dans la GraphWindow dans la MdiArea  
             self._GraphWindow.setWindowState(QtCore.Qt.WindowMaximized)
-            self._GraphWindow.setGeometry(70, 32, 1770, 970)
+            #self._GraphWindow.setGeometry(70, 32, 1770, 970)
             self._GraphWindow.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
             self._figure = plt.figure()  # a figure instance to plot on
             
