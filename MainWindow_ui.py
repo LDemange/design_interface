@@ -34,7 +34,7 @@ class Ui_CMainWindow(object):
         self.formLayout.setSpacing(3)
         self.formLayout.setObjectName("formLayout")
         self.AutoZoomButton = QtWidgets.QPushButton(self.centralwidget)
-        self.AutoZoomButton.setEnabled(False)
+        self.AutoZoomButton.setEnabled(True)
         self.AutoZoomButton.setMinimumSize(QtCore.QSize(30, 25))
         self.AutoZoomButton.setMaximumSize(QtCore.QSize(30, 25))
         font = QtGui.QFont()
