@@ -4,6 +4,6 @@
 .DS_Store
 raw_data/
 *.csv
-**/__pycache__/
-.env
+**/__pycache__/OB
 build/
+
