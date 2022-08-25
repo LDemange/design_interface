@@ -11,6 +11,7 @@ seaborn
 sklearn
 yapf
 pyqt5
+opencv-python
 # tensorflow
 
 # prevent bq 3+ db-dtypes package error when running training from bq
