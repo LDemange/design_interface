@@ -1,31 +1,20 @@
-from cx_Freeze import setup, Executable
-import sys
+from setuptools import find_packages
+from setuptools import setup
 
+with open("requirements.txt") as f:
+    content = f.readlines()
+requirements = [x.strip() for x in content if "git+" not in x]
 
-sys.path.insert(0, "/home/demange/code/design_interface")
-
-includes = ["os", "sys", "atexit"]
- 
-includefiles = [
-"EditDataWindow.py", "MainWindow_ui.py", "MenuFonction.py", "EditDataWindow_ui.py", "MenuFonction_ui.py"
-]
-
-# base="Win32GUI" should be used only for Windows GUI app
-base = None
-if sys.platform == "win32":
-    base = "Win32GUI"
- 
-executables = [
-Executable("MainWindow.py", base=base)
-]
- 
-# On appelle la fonction setup
- 
-setup(
-    install_requires=['PyQt5'],
-    name = "Design App",
-    version = "1",
-    description = "Design application",
-    options = {'build_exe' : {'include_files':includefiles, 'includes': includes}},
-    executables = executables,
-)
+setup(name='design_interface',
+      version="0.0.9",
+      description="Design Interface",
+      license="MIT",
+      author="L.D.",
+      author_email="demange.louis@hotmail.fr",
+      url="https://github.com/LDemange",
+      install_requires=requirements,
+      packages=find_packages(),
+      test_suite="tests",
+      # include_package_data: to install data from MANIFEST.in
+      include_package_data=True,
+      zip_safe=False)
